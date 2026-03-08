@@ -98,4 +98,20 @@ if (contactForm) {
       console.error(err);
     }
   });
+  // ===== Мобильное выпадающее меню =====
+  const navToggle = document.querySelector(".nav-toggle");
+  const menu = document.querySelector(".menu");
+
+  if (navToggle && menu) {
+    navToggle.addEventListener("click", () => {
+      menu.classList.toggle("active");
+    });
+
+    // Закрытие меню при клике на ссылку
+    menu.querySelectorAll("a").forEach((link) => {
+      link.addEventListener("click", () => {
+        menu.classList.remove("active");
+      });
+    });
+  }
 }
