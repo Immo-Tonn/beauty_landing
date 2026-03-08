@@ -115,6 +115,9 @@ body {
 
 .hero {
   background: url('../images/salon-hero.jpg') center/cover no-repeat;
+  background-size: cover;
+  background-position: center;
+  background-attachment: scroll; /* лучше не fixed для быстрого рендера */
   color: #fff;
   text-align: center;
   padding: 140px 20px;

@@ -18,45 +18,84 @@ const contactForm = document.querySelector("#contact-form");
 const statusMessage = document.querySelector("#form-status");
 
 if (contactForm) {
+  const lang = document.documentElement.lang || "de";
+
+  // ===== 1️⃣ Обработка обязательных полей через invalid =====
+  const requiredInputs = contactForm.querySelectorAll("input[required]");
+  requiredInputs.forEach((input) => {
+    input.addEventListener("invalid", (e) => {
+      e.preventDefault(); // отключаем стандартное всплывающее сообщение
+      statusMessage.textContent =
+        lang === "de"
+          ? "Bitte geben Sie Name, E-Mail und Telefon ein."
+          : lang === "ru"
+            ? "Введите имя, email и телефон."
+            : "Please enter name, email, and phone.";
+    });
+
+    // Сброс сообщения при вводе
+    input.addEventListener("input", () => {
+      statusMessage.textContent = "";
+    });
+  });
+
+  // ===== 2️⃣ Отправка формы =====
   contactForm.addEventListener("submit", async (e) => {
     e.preventDefault();
 
-    const formData = {
-      name: document.querySelector("#name").value.trim(),
-      email: document.querySelector("#email").value.trim(),
-      phone: document.querySelector("#phone").value.trim(),
-      message: document.querySelector("#message").value.trim(),
-      company: document.querySelector("#company").value.trim(), // honeypot
-    };
+    const name = document.querySelector("#name").value.trim();
+    const email = document.querySelector("#email").value.trim();
+    const phone = document.querySelector("#phone").value.trim();
+    const message = document.querySelector("#message").value.trim();
+    const company = document.querySelector("#company").value.trim(); // honeypot
 
-    // Проверяем honeypot на фронтенде (дополнительно)
-    if (formData.company) {
-      statusMessage.textContent = "Ошибка: Спам обнаружен.";
+    // Проверка honeypot спама
+    if (company) {
+      statusMessage.textContent =
+        lang === "de"
+          ? "Fehler: Spam erkannt."
+          : lang === "ru"
+            ? "Ошибка: Спам обнаружен."
+            : "Error: Spam detected.";
       return;
     }
 
-    statusMessage.textContent = "Отправка...";
+    // Показываем статус отправки
+    statusMessage.textContent =
+      lang === "de" ? "Sende..." : lang === "ru" ? "Отправка..." : "Sending...";
 
     try {
       const response = await fetch("/api/contact", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email, phone, message, company, lang }),
       });
 
-      if (response.ok) {
-        statusMessage.textContent = "Спасибо! Заявка отправлена.";
-        contactForm.reset();
+      let data = { error: "Server error" };
+
+      try {
+        data = await response.json();
+      } catch {}
+
+      if (!response.ok) {
+        statusMessage.textContent = data.error || "Server error";
       } else {
-        const data = await response.json();
         statusMessage.textContent =
-          data.error || "Ошибка при отправке. Попробуйте позже.";
+          lang === "de"
+            ? "Danke! Anfrage gesendet."
+            : lang === "ru"
+              ? "Спасибо! Заявка отправлена."
+              : "Thank you! Request sent.";
+        contactForm.reset();
       }
-    } catch (error) {
-      statusMessage.textContent = "Сервер недоступен.";
-      console.error(error);
+    } catch (err) {
+      statusMessage.textContent =
+        lang === "de"
+          ? "Serverfehler."
+          : lang === "ru"
+            ? "Сервер недоступен."
+            : "Server unavailable.";
+      console.error(err);
     }
   });
 }
