@@ -1,4 +1,6 @@
-// RESET
+/* ========================= */
+/* RESET */
+/* ========================= */
 * {
   margin: 0;
   padding: 0;
@@ -22,16 +24,15 @@ body {
   isolation: isolate;
 }
 
-/* жидкое стекло под всем контентом — более заметный */
 body::after {
-  content:"";
+  content: "";
   position: fixed;
-  top:0;
-  left:0;
-  width:100%;
-  height:100%;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   z-index: -100;
-  pointer-events:none;
+  pointer-events: none;
   background:
     radial-gradient(circle at 20% 30%, rgba(255,180,220,0.25), transparent 50%),
     radial-gradient(circle at 80% 20%, rgba(170,220,255,0.25), transparent 50%),
@@ -41,16 +42,17 @@ body::after {
   animation: liquidMove 20s ease-in-out infinite alternate, liquidColorShift 25s ease-in-out infinite alternate;
 }
 
-/* движение градиентов */
+/* ========================= */
+/* ANIMATIONS */
+/* ========================= */
 @keyframes liquidMove {
   0% { transform: translate(0,0) scale(1); }
   50% { transform: translate(-80px,50px) scale(1.25); }
   100% { transform: translate(100px,-70px) scale(1.35); }
 }
 
-/* плавная смена интенсивности цветов */
 @keyframes liquidColorShift {
-  0% {
+  0% { 
     background:
       radial-gradient(circle at 20% 30%, rgba(255,180,220,0.15), transparent 50%),
       radial-gradient(circle at 80% 20%, rgba(170,220,255,0.15), transparent 50%),
@@ -73,261 +75,13 @@ body::after {
   }
 }
 
-/* CONTAINER */
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 20px;
-}
-
-/* HEADER */
-.header {
-  background: rgba(255,255,255,0.2);
-  backdrop-filter: blur(10px);
-  border-bottom: 1px solid #eee;
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  transition: background 0.3s ease;
-}
-
-/* NAV */
-.nav {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  height: 70px;
-}
-
-/* LOGO */
-.logo {
-  font-size: 22px;
-  font-weight: 700;
-  color: #f39ca0; /* основной розовый цвет сайта */
-  letter-spacing: 1px;
-  transition: color 0.3s;
-}
-
-.logo:hover {
-  color: #aaddff; /* голубой акцент при hover */
-}
-
-/* MENU */
-.menu {
-  display: flex;
-  gap: 30px;
-  list-style: none;
-
-  a {
-    text-decoration: none;
-    color: #333;
-    font-weight: 500;
-    position: relative;
-    padding-bottom: 5px;
-    transition: 0.3s;
-
-    /* подчеркивание при hover */
-    &::after {
-      content: "";
-      position: absolute;
-      left: 0;
-      bottom: 0;
-      width: 0%;
-      height: 2px;
-      background: linear-gradient(90deg, #f39ca0, #aaddff, #fff09a);
-      transition: width 0.3s ease;
-    }
-
-    &:hover {
-      color: #f39ca0; /* основной цвет сайта */
-    }
-
-    &:hover::after {
-      width: 100%;
-    }
-
-    &:active {
-      color: #c65363;
-    }
-  }
-
-  /* эффект выделения пунктов меню по очереди */
-  li:nth-child(odd) a {
-    transition-delay: 0.05s;
-  }
-
-  li:nth-child(even) a {
-    transition-delay: 0.1s;
-  }
-}
-
-/* NAV TOGGLE (гамбургер) */
-.nav-toggle {
-  display: none;
-  flex-direction: column;
-  justify-content: space-between;
-  width: 24px;
-  height: 18px;
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  padding: 0;
-  z-index: 150;
-
-  span {
-    display: block;
-    height: 3px;
-    width: 100%;
-    background-color: #333;
-    border-radius: 2px;
-    transition: 0.3s;
-  }
-}
-
-/* LANGUAGE SWITCHER */
-.language-switcher {
-  display: flex;
-  gap: 8px;
-  font-size: 14px;
-
-  a {
-    text-decoration: none;
-    color: #555;
-    font-weight: 600;
-    transition: color 0.2s;
-
-    &:hover {
-      color: #f39ca0;
-    }
-  }
-}
-
-/* MOBILE */
-@media (max-width: 768px) {
-  .nav-toggle { display: flex; }
-
-  .menu {
-    flex-direction: column;
-    gap: 15px;
-    position: absolute;
-    top: 70px;
-    right: 0;
-    background: rgba(255,255,255,0.95);
-    backdrop-filter: blur(10px);
-    width: 220px;
-    padding: 20px;
-    border: 1px solid #eee;
-    border-radius: 12px;
-    display: none;
-    z-index: 200;
-  }
-
-  .menu.active { display: flex; }
-
-  /* Мобильное меню с анимацией градиента текста */
-@media (max-width: 768px) {
-  .menu a {
-    background: linear-gradient(90deg, #f39ca0, #aaddff, #fff09a);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-size: 200% 200%;
-    animation: menuTextGradient 6s ease infinite;
-    text-align: center;
-  }
-
-  @keyframes menuTextGradient {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-  }
-}
-
-
-  .menu a:hover {
-    color: #f39ca0;
-  }
-
-  .language-switcher { display: none; }
-}
-
-
-/* ===== HERO ===== */
-/* Базовый стиль — Desktop (1920px) */
-.hero {
-  position: relative;
-  z-index: 1;
-  background: url('../images/salon-hero1920.jpg') center/cover no-repeat;
-  color: #fff;
-  padding: 160px 20px;
-  overflow: hidden;
-
-  /* overlay для читаемости текста */
-  &::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.25);
-    z-index: 0;
-  }
-
-  .container {
-    position: relative;
-    z-index: 2;
-    display: flex;
-    justify-content: center; 
-    align-items: center;     
-    flex-direction: column;
-    text-align: center;
-    min-height: 400px;      
-  }
-
-  h1 {
-    font-size: 48px;
-    line-height: 1.2;
-    margin-bottom: 20px;
-    background: linear-gradient(90deg, #f39ca0, #aaddff, #fff09a);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-size: 200% 200%;
-    animation: textGradient 6s ease infinite;
-  }
-
-  p {
-    font-size: 20px;
-    margin-bottom: 20px;
-  }
-
-  /* ===== кнопка справа внизу с горизонтальным текстом ===== */
-  .btn {
-    position: absolute;
-    right: 30px;
-    bottom: 30px;
-    padding: 16px 32px;        /* прямоугольная форма */
-    border-radius: 20px;       /* закруглённые углы */
-    background: linear-gradient(135deg, #f39ca0, #aaddff, #fff09a);
-    background-size: 300% 300%;
-    color: #fff;
-    font-weight: 700;
-    font-size: 16px;
-    text-align: center;
-    cursor: pointer;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.2); /* объёмная тень */
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    text-decoration: none;
-    line-height: normal;
-
-    /* плавный градиент фона */
-    animation: btnGradientShift 8s ease infinite;
-  }
-
-  .btn:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 15px 30px rgba(0,0,0,0.3); /* приподнимается при hover */
-  }
-}
-
-/* ===== Анимации ===== */
 @keyframes textGradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes gradientShift {
   0% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
   100% { background-position: 0% 50%; }
@@ -339,188 +93,278 @@ body::after {
   100% { background-position: 0% 50%; }
 }
 
-/* ===== Tablet ===== */
-@media (max-width: 1279px) and (min-width: 769px) {
-  .hero {
-    background: url('../images/salon-hero1280.jpg') center/cover no-repeat;
-    padding: 140px 20px;
-
-    .container { min-height: 350px; }
-
-    h1 { font-size: 42px; }
-    p { font-size: 18px; }
-
-    .btn {
-      padding: 14px 28px;
-      font-size: 14px;
-    }
-  }
+@keyframes reviewsScroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
 }
 
-/* ===== Mobile ===== */
-@media (max-width: 768px) {
-  .hero {
-    background: url('../images/salon-hero768.jpg') center/cover no-repeat;
-    padding: 120px 20px;
-
-    .container { min-height: 300px; }
-
-    h1 { font-size: 32px; }
-    p { font-size: 16px; margin-bottom: 30px; }
-
-    .btn {
-      position: relative;  /* кнопка под текстом */
-      right: auto;
-      bottom: auto;
-      margin-top: 20px;
-      width: 80%;
-      max-width: 200px;
-      padding: 12px 24px;
-      font-size: 14px;
-      text-align: center;
-      border-radius: 20px;
-      line-height: normal;
-    }
-  }
+@keyframes lineColorFlow {
+  0%   { background-position: 0% 0%; }
+  100% { background-position: 100% 0%; }
 }
 
-
-
+/* анимация движения градиента справа налево */
+@keyframes lineRunReverse {
+  0% {
+    background-position: 100% 0; 
+  }
+  100% {
+    background-position: -100% 0;
+  }
+}
 
 /* ========================= */
-/* SALON DESCRIPTION CARD */
+/* CONTAINER */
+/* ========================= */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* ========================= */
+/* HEADER & NAV */
+/* ========================= */
+.header {
+  background: rgba(255,255,255,0.2);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid #eee;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  transition: background 0.3s ease;
+}
+
+.nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 70px;
+}
+
+.logo {
+  font-size: 22px;
+  font-weight: 700;
+  color: #3d6078; 
+  letter-spacing: 1px;
+  transition: color 0.3s;
+}
+
+.menu {
+  display: flex;
+  gap: 30px;
+  list-style: none;
+}
+
+.menu a {
+  text-decoration: none;
+  color: #333;
+  font-weight: 500;
+  position: relative;
+  padding-bottom: 5px;
+  transition: 0.3s;
+}
+
+.menu a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 0%;
+  height: 2px;
+  background: linear-gradient(90deg, #f39ca0, #aaddff, #fff09a);
+  transition: width 0.3s ease;
+}
+
+.menu a:hover { color: #f39ca0; }
+.menu a:hover::after { width: 100%; }
+.menu a:active { color: #c65363; }
+
+.nav-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 24px;
+  height: 18px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  z-index: 150;
+}
+
+.nav-toggle span {
+  display: block;
+  height: 3px;
+  width: 100%;
+  background-color: #333;
+  border-radius: 2px;
+  transition: 0.3s;
+}
+
+.language-switcher {
+  display: flex;
+  gap: 8px;
+  font-size: 14px;
+}
+
+.language-switcher a {
+  text-decoration: none;
+  color: #555;
+  font-weight: 600;
+  transition: color 0.2s;
+}
+
+.language-switcher a:hover { color: #f39ca0; }
+
+/* ========================= */
+/* HERO SECTION */
+/* ========================= */
+.hero {
+  position: relative;
+  z-index: 1;
+  background: url('../images/salon-hero1920.jpg') center/cover no-repeat;
+  color: #fff;
+  padding: 160px 20px 100px;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.25);
+  z-index: 0;
+}
+
+.hero .container {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  text-align: right;
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: 0;
+}
+
+.hero h1 {
+  font-size: 72px;
+  line-height: 1.1;
+  margin-bottom: 10px;
+
+  /* Градиент фона */
+  background: linear-gradient(90deg, #f39ca0, #aaddff, #fff09a);
+  background-size: 200% 200%;
+
+  /* Клип текста */
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+
+  /* Для безопасности */
+  background-clip: text; /* Firefox игнорирует, но не мешает */
+
+  /* Анимация */
+  animation: textGradient 6s ease infinite;
+}
+
+.hero p {
+  font-size: 22px;
+  margin-bottom: 100px;
+  max-width: 500px;
+}
+
+/* ========================= */
+/* SECTIONS: SALON DESCRIPTION & PRINCIPLES */
 /* ========================= */
 .salon-description {
   position: relative;
   z-index: 1;
-  max-width: 800px;
-  margin: 60px auto; /* центрирование блока */
-  padding: 40px 30px;
-  border-radius: 20px;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
-  color: #fff;
+  max-width: 900px;
+  margin: 80px auto;
   text-align: center;
-  background: linear-gradient(135deg, #f39ca0, #aaddff, #fff09a, #f39ca0);
-  background-size: 600% 600%;
-  animation: gradientShift 15s ease infinite;
-
-  p {
-    font-size: 16px;
-    line-height: 1.8;
-    margin-bottom: 20px;
-  }
+  padding: 0 20px;
 }
 
-/* Анимация плавного перелива */
-@keyframes gradientShift {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+.salon-description p {
+  font-size: 24px;
+  line-height: 1.8;
+  margin-bottom: 25px;
+  background: linear-gradient(90deg,#f39ca0,#aaddff,#fff09a);
+    /* Клип текста */
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+
+  /* Для безопасности */
+  background-clip: text; /* Firefox игнорирует, но не мешает */
+  
+  background-size: 200% 200%;
+  animation: textGradient 10s ease infinite;
+  text-shadow: 0 2px 6px rgba(0,0,0,0.25), 0 0 1px rgba(0,0,0,0.4);
 }
 
-/* MOBILE */
-@media (max-width: 768px) {
-  .salon-description {
-    padding: 30px 20px;
-    margin: 40px 15px;
-  }
-}
-
-/* ========================= */
-/* SALON PRINCIPLES BLOCK (ADAPTIVE) */
-/* ========================= */
 .salon-principles {
   position: relative;
   z-index: 1;
   background: url('../images/salon-principles1920.jpg') center/cover no-repeat;
   color: #fff;
   text-align: center;
-  padding: 160px 20px;
-
-  /* overlay для читаемости текста */
-  &::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.25);
-    z-index: 0;
-  }
-
-  .container {
-    position: relative;
-    z-index: 2;
-  }
-
-  /* первая крупная надпись */
-  .principles-content p:first-of-type {
-    font-size: 48px;
-    font-weight: 700;
-    margin-bottom: 60px;
-    background: linear-gradient(90deg, #f39ca0, #aaddff, #fff09a);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-size: 200% 200%;
-    animation: textGradient 6s ease infinite;
-  }
-
-  /* список пунктов */
-  .principles-content ul {
-    list-style: none;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 40px;
-    padding: 0;
-    margin: 0;
-
-    li {
-      font-size: 20px;
-      font-weight: 600;
-      width: 230px;
-      background: linear-gradient(90deg, #f39ca0, #aaddff, #fff09a);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-size: 200% 200%;
-      animation: textGradient 8s ease infinite;
-      text-align: center;
-    }
-
-    li:nth-child(odd) { animation-delay: 0s; }
-    li:nth-child(even) { animation-delay: 2s; }
-  }
+  padding: 160px 20px 100px;
 }
 
-/* анимация переливания текста */
-@keyframes textGradient {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+.salon-principles::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.25);
+  z-index: 0;
 }
 
-/* Tablet */
-@media (max-width: 1279px) and (min-width: 769px) {
-  .salon-principles {
-    background: url('../images/salon-principles1280.jpg') center/cover no-repeat;
-    padding: 120px 20px;
+.salon-principles .container { position: relative; z-index: 2; }
 
-    .principles-content p:first-of-type { font-size: 42px; }
-    .principles-content ul li { font-size: 18px; width: 180px; }
-  }
+.principles-content p:first-of-type {
+  font-size: 48px;
+  font-weight: 700;
+  margin-bottom: 100px;
+  background: linear-gradient(90deg, #f39ca0, #aaddff, #fff09a);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+   /* Для безопасности */
+  background-clip: text; /* Firefox игнорирует, но не мешает */
+  background-size: 200% 200%;
+  animation: textGradient 6s ease infinite;
 }
 
-/* Mobile */
-@media (max-width: 768px) {
-  .salon-principles {
-    background: url('../images/salon-principles768.jpg') center/cover no-repeat;
-    padding: 80px 15px;
-
-    .principles-content p:first-of-type { font-size: 32px; margin-bottom: 40px; }
-    .principles-content ul li { font-size: 16px; width: 140px; gap: 20px; }
-  }
+.principles-content ul {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 40px;
+  padding: 0;
+  margin: 0;
 }
 
- 
-/* BUTTON */
+.principles-content ul li {
+  font-size: 20px;
+  font-weight: 600;
+  width: 230px;
+  text-align: center;
+  background: linear-gradient(90deg, #f39ca0, #aaddff, #fff09a);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+   /* Для безопасности */
+  background-clip: text; /* Firefox игнорирует, но не мешает */
+  background-size: 200% 200%;
+  animation: textGradient 8s ease infinite;
+}
+
+.principles-content ul li:nth-child(even) { animation-delay: 2s; }
+
+/* ========================= */
+/* BUTTONS */
+/* ========================= */
 .btn {
   background: linear-gradient(135deg, #f39ca0, #aaddff, #fff09a);
   background-size: 300% 300%;
@@ -534,12 +378,8 @@ body::after {
   text-align: center;
   line-height: normal;
   text-decoration: none;
-
   box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-
-  /* та же анимация что и в hero */
   animation: btnGradientShift 8s ease infinite;
 }
 
@@ -548,122 +388,137 @@ body::after {
   box-shadow: 0 15px 30px rgba(0,0,0,0.3);
 }
 
-
-/* SECTIONS */
-section {
-  padding: 60px 0;
-}
-
-h2 {
-  text-align: center;
-  margin-bottom: 30px;
-  font-size: 28px;
-}
-
-/* SERVICES */
 /* ========================= */
-/* FEATURES GRID — ГРАДИЕНТНЫЕ КАРТОЧКИ */
+/* FEATURES*/
 /* ========================= */
-/* FEATURES GRID — Пастельные карточки */
-.features-grid {
-  display: grid;
-  gap: 30px;
-  grid-template-columns: repeat(3, 1fr);
-  margin: 60px auto;
-  text-align: center;
-}
-
-/* каждая карточка */
-.feature-item {
-  position: relative;
-  background: linear-gradient(135deg, rgba(243,156,160,0.6), rgba(170,221,255,0.6), rgba(255,240,150,0.6));
-  background-size: 600% 600%;
-  padding: 30px 20px;
-  border-radius: 20px;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.1); /* более мягкая тень */
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  color: #333;
+.features {
+  padding: 80px 20px; /* отступ сверху и снизу */
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  animation: gradientShift 20s ease infinite; /* медленнее перелив */
+  max-width: 1200px;
+  margin: 0 auto; /* центрирование блока */
 }
 
-/* заголовок карточки по центру с более мягким градиентом текста */
-.feature-item h3 {
-  font-size: 22px;
-  font-weight: 700;
-  margin-bottom: 15px;
-  /* более тёмный, читаемый градиент */
-  background: linear-gradient(90deg, #c65363, #6caadf, #e0d966);
+/* Заголовок блока */
+.features-title {
+  font-size: 60px;
+  font-weight: 900;
+  text-align: center;
+  margin-bottom: 60px; /* отступ от предыдущего блока */
+
+  /* Градиент текста */
+  background: linear-gradient(90deg, #f39ca0, #aaddff, #fff09a);
+  background-size: 200% 200%;
+
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  background-size: 200% 200%;
-  animation: textGradient 12s ease infinite;
-  text-align: center;
+  background-clip: text; /* стандартное свойство */
+  color: transparent;
+
+  /* Тень для читаемости */
+  text-shadow: 2px 2px 12px rgba(0,0,0,0.35);
+
+  /* Анимация перелива градиента */
+  animation: textGradient 6s ease infinite;
 }
 
-
-/* текст внутри карточки */
-.feature-item p {
-  font-size: 14px;
-  line-height: 1.6;
-  color: #444;
-  text-align: center;
-}
-
-/* hover эффект */
-.feature-item:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 15px 35px rgba(0,0,0,0.15);
-}
-
-/* анимации плавного градиента */
-@keyframes gradientShift {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
-
-@keyframes textGradient {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
-
-/* Tablet адаптивность */
-@media (max-width: 1279px) and (min-width: 769px) {
-  .features-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-/* Mobile адаптивность */
-@media (max-width: 768px) {
-  .features-grid {
-    grid-template-columns: 1fr;
-    gap: 20px;
-  }
-}
-
-
-/* REVIEWS CAROUSEL */
-
-.reviews-carousel{
-  position: relative;
-  overflow: hidden;
-  margin-top: 40px;
-}
-
-.reviews-track{
+.service {
   display: flex;
-  gap: 25px;
-  transition: transform 0.5s ease;
+  align-items: center;
+  justify-content: space-between;
+  gap: 40px;
+  margin-bottom: 80px;
+  width: 100%; 
+  max-width: 1000px; /* ограничение ширины блока */
+  position: relative;
 }
 
-/* ===== REVIEWS CAROUSEL ===== */
+/* Чередование текст/фото */
+.service:nth-child(odd) .service-content { order: 1; }
+.service:nth-child(odd) .service-image { order: 2; }
+.service:nth-child(even) .service-content { order: 2; }
+.service:nth-child(even) .service-image { order: 1; }
 
+.service-content {
+  flex: 1 1 500px;
+}
+
+.service-content h3 {
+  font-size: 32px;
+  margin-bottom: 20px;
+  background: linear-gradient(90deg,#c65363,#6caadf,#e0d966);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+   /* Для безопасности */
+  background-clip: text; /* Firefox игнорирует, но не мешает */
+  text-shadow: 1px 1px 5px rgba(0,0,0,0.2);
+  animation: textGradient 6s linear infinite; /* анимация перелива */
+}
+
+.service-content p {
+  font-size: 16px;
+  line-height: 1.7;
+}
+
+.service-content ul {
+  margin-top: 10px;
+  padding-left: 20px;
+  list-style: disc;
+}
+
+.service-image {
+  flex: 1 1 350px;
+  max-width: 350px; /* ограничение ширины фото */
+}
+
+.service-image img {
+  width: 100%;
+  border-radius: 20px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+}
+
+/* Разделительная линия с движущимся градиентом */
+.service::after {
+  content: "";
+  position: absolute;
+  bottom: -30px;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  border-radius: 2px;
+
+  /* Градиент с несколькими цветами */
+  background: linear-gradient(90deg, #f39ca0, #aaddff, #fff09a, #f39ca0);
+  background-size: 200% 100%; /* делаем градиент в два раза шире, чтобы был эффект движения */
+  
+  filter: blur(3px);
+  animation: lineColorFlow 4s linear infinite alternate; /* движение туда-сюда */
+}
+
+/* ========================= */
+/* REVIEWS CAROUSEL */
+/* ========================= */
+
+/* Заголовок блока */
+.reviews .section-title {
+  font-size: 60px;
+  font-weight: 900;
+  text-align: center;
+  margin-bottom: 60px;
+
+  background: linear-gradient(90deg, #f39ca0, #aaddff, #fff09a);
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+
+  text-shadow: 2px 2px 12px rgba(0,0,0,0.35);
+  animation: textGradient 6s ease infinite;
+}
+
+/* Обёртка карусели */
 .reviews-carousel {
   overflow: hidden;
   position: relative;
@@ -671,16 +526,17 @@ h2 {
   margin: 60px auto;
 }
 
+/* Трек карточек с вертикальными отступами */
 .reviews-track {
-    padding: 20px;
   display: flex;
   gap: 30px;
+  padding: 40px 0; /* отступ сверху и снизу карточек */
   animation: reviewsScroll 30s linear infinite;
 }
 
+/* Карточка отзыва */
 .review-item {
   flex: 0 0 300px;
-
   background: linear-gradient(135deg, rgba(243,156,160,0.6), rgba(170,221,255,0.6), rgba(255,240,150,0.6));
   background-size: 600% 600%;
   padding: 25px 20px;
@@ -700,152 +556,223 @@ h2 {
   animation: gradientShift 20s ease infinite;
 }
 
-.review-item h3 {
-  font-size: 20px;
-  font-weight: 700;
-  margin-bottom: 10px;
-  background: linear-gradient(90deg, #c65363, #6caadf, #e0d966);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-size: 200% 200%;
-  animation: textGradient 12s ease infinite;
+/* Аватар клиента */
+.review-avatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 12px;
+  border: 2px solid rgba(255,255,255,0.6);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 }
 
+/* Текст отзыва */
 .review-item p {
   font-size: 14px;
   line-height: 1.6;
   margin-bottom: 12px;
 }
 
+/* Автор */
 .review-item span {
   font-weight: 600;
   color: #f39ca0;
 }
 
-/* hover / active */
-.review-item:hover,
-.review-item.active {
+/* Hover и активное состояние */
+.review-item:hover, .review-item.active {
   transform: translateY(-6px) scale(1.05);
   box-shadow: 0 20px 40px rgba(0,0,0,0.15);
 }
 
-/* бесконечная прокрутка */
-@keyframes reviewsScroll {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
+
+/* ========================= */
+/* CONTACT & FORM */
+/* ========================= */
+.contact-grid {
+  display: flex;
+  gap: 40px;
+  align-items: flex-start;
+  justify-content: center;
+  flex-wrap: wrap;
 }
 
-/* Анимация градиента фона карточки */
-@keyframes gradientShift {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+.section-title {
+  font-size: 60px;
+  font-weight: 900;
+  text-align: center;
+  margin-bottom: 60px;
+
+  background: linear-gradient(90deg, #f39ca0, #aaddff, #fff09a);
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+
+  text-shadow: 2px 2px 12px rgba(0,0,0,0.35);
+  animation: textGradient 6s ease infinite;
 }
 
-/* Анимация градиента текста */
-@keyframes textGradient {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+.contact-left, .contact-right {
+  flex: 1 1 450px;
 }
 
-/* ===== TABLET ===== */
-@media (max-width: 1279px) {
-  .review-item { flex: 0 0 260px; }
+.contact-left img {
+  width: 100%;
+  border-radius: 20px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
 }
 
-/* ===== MOBILE ===== */
-@media (max-width: 768px) {
-  .review-item { flex: 0 0 85%; }
-}
-
-
-
-
-/* CONTACT FORM */
-.contact-section form {
-  max-width: 500px;
-  margin: auto;
+/* Форма */
+.contact-right form {
   display: flex;
   flex-direction: column;
   gap: 15px;
-
-  input, textarea {
-    padding: 12px;
-    border-radius: 8px;
-    border: 1px solid #ddd;
-    font-size: 14px;
-  }
-
-  textarea { min-height: 120px; }
 }
 
-/* CONTACTS */
+.contact-right input, 
+.contact-right textarea {
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  font-size: 14px;
+}
+
+.contact-right textarea { min-height: 120px; }
+
+/* Контакты */
+.contacts .section-title {
+  font-size: 60px;
+  font-weight: 900;
+  text-align: center;
+  margin-bottom: 60px;
+
+  background: linear-gradient(90deg, #f39ca0, #aaddff, #fff09a);
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+
+  text-shadow: 2px 2px 12px rgba(0,0,0,0.35);
+  animation: textGradient 6s ease infinite;
+}
+
+/* Основная сетка */
+.contacts{
+padding: 80px 20px;
+}
 .contacts-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 40px;
-  align-items: center;
-}
-
-.contacts-right iframe {
-  width: 100%;
-  height: 350px;
-  border-radius: 12px;
-  border: none;
-}
-
-.contacts-left {
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  gap: 40px;
+  justify-content: center;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  max-width: 1000px;
+  margin: 0 auto;
   text-align: center;
 }
 
-.social-links {
-  margin-top: 20px;
+/* Левая колонка — текст и соцсети */
+.contacts-left {
+  flex: 1 1 400px;
   display: flex;
-  gap: 15px;
-  justify-content: center; /* центрирует кнопки */
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
 }
 
-/* базовый стиль иконок */
-.social-icon {
-  width: 48px;
-  height: 48px;
-
+/* Правая колонка — карта */
+.contacts-right {
+  flex: 1 1 400px;
   display: flex;
+  flex-direction: column;
   align-items: center;
+  gap: 15px;
+}
+
+/* Соцсети */
+.social-links {
+  display: flex;
+  gap: 15px;
+  justify-content: center; /* горизонтальное центрирование */
+  margin-top: 20px;
+}
+
+.social-icon {
+  width: 48px; 
+  height: 48px;
+  display: flex; 
+  align-items: center; 
   justify-content: center;
-
   border-radius: 14px;
-
-  font-size: 20px;
+  font-size: 20px; 
   color: #fff;
 
+  /* Градиент и анимация как у кнопок */
   background: linear-gradient(135deg,#f39ca0,#aaddff,#fff09a);
   background-size: 300% 300%;
-
   box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-
   animation: btnGradientShift 8s ease infinite;
 }
 
-/* hover эффект */
 .social-icon:hover {
   transform: translateY(-4px) scale(1.08);
   box-shadow: 0 12px 25px rgba(0,0,0,0.25);
 }
 
-/* цвета иконок */
-.telegram i { color: #fff; }
-.whatsapp i { color: #fff; }
-.facebook i { color: #fff; }
+.telegram i, .whatsapp i, .facebook i {
+  color: #fff;
+}
 
+/* Обёртка карты для позиции ссылки */
+.map-wrapper {
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: flex-end; /* ссылка вправо */
+}
 
+/* Ссылка на Google Maps в верхний правый угол */
+/* Ссылка на Google Maps в верхний правый угол */
+.map-link {
+  position: absolute;
+  top: 8px;
+  right: 12px;
+  background: linear-gradient(135deg,#f39ca0,#aaddff,#fff09a);
+  background-size: 300% 300%;
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #fff;
+  text-decoration: none;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  animation: btnGradientShift 8s ease infinite; /* плавный перелив */
+}
+
+/* Hover эффект */
+.map-link:hover {
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 6px 15px rgba(0,0,0,0.25);
+}
+
+/* Выравнивание карты по верхней границе текста слева */
+.contacts-grid {
+  display: flex;
+  align-items: flex-start; /* верхнее выравнивание */
+  gap: 40px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* ========================= */
 /* FOOTER */
+/* ========================= */
 .footer {
   background: #222;
   color: #fff;
@@ -854,36 +781,151 @@ h2 {
   font-size: 14px;
 }
 
-/* MOBILE */
+.footer-links {
+  margin: 10px 0;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.footer-link {
+  color: #f39ca0;
+  text-decoration: none;
+  font-weight: 600;
+  transition: background 0.3s ease, color 0.3s ease;
+  padding: 4px 8px;
+  border-radius: 6px;
+}
+
+.footer-link:hover {
+  background: linear-gradient(135deg, #f39ca0, #aaddff, #fff09a);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* линия перед годом — бег справа налево */
+.footer .container p:last-of-type::before {
+  content: "";
+  display: block;
+  width: 100%;           
+  height: 2px;           
+  margin: 20px 0 15px 0;
+  border-radius: 1px;
+
+  background: linear-gradient(
+    to right,
+    rgba(243,156,160,0),   
+    rgba(243,156,160,1) 20%, 
+    rgba(170,221,255,1) 50%, 
+    rgba(255,240,154,1) 80%,
+    rgba(243,156,160,0)     
+  );
+  background-size: 200% 100%;
+  animation: lineRunReverse 3s linear infinite;
+}
+
+/* Модальные окна */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 500;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0,0,0,0.5);
+
+  /* предотвращаем смещение страницы */
+  overscroll-behavior: contain;
+}
+
+.modal-content {
+  background-color: #fff;
+  margin: 10% auto;
+  padding: 30px;
+  border-radius: 16px;
+  max-width: 600px;
+  position: relative;
+  text-align: left;
+}
+
+.modal-content h2 {
+  margin-top: 0;
+  margin-bottom: 15px;
+  font-size: 28px;
+  background: linear-gradient(90deg, #f39ca0, #aaddff, #fff09a);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+  animation: textGradient 6s ease infinite;
+}
+
+.modal-content p {
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+/* Закрытие */
+.modal .close {
+  position: absolute;
+  top: 12px;
+  right: 16px;
+  font-size: 28px;
+  font-weight: bold;
+  color: #333;
+  cursor: pointer;
+}
+
+/* ========================= */
+/* MEDIA QUERIES */
+/* ========================= */
+@media (max-width: 1279px) {
+  .hero { background: url('../images/salon-hero1280.jpg') center/cover no-repeat; padding: 140px 20px; }
+  .hero h1 { font-size: 42px; }
+  .hero p { font-size: 18px; }
+  .review-item { flex: 0 0 260px; }
+  .salon-principles { background: url('../images/salon-principles1280.jpg') center/cover no-repeat; padding: 120px 20px; }
+  .principles-content p:first-of-type { font-size: 42px; }
+  .principles-content ul li { font-size: 18px; width: 180px; }
+}
+
 @media (max-width: 768px) {
-  .features-grid { grid-template-columns: 1fr; }
-  .contacts-grid { grid-template-columns: 1fr; }
-
-  .nav {
-    justify-content: space-between;
-    flex-wrap: nowrap;
-    height: 70px;
-    position: relative;
-  }
-
   .nav-toggle { display: flex; }
+  .menu { flex-direction: column; gap: 15px; position: absolute; top: 70px; right: 0; background: rgba(255,255,255,0.95); backdrop-filter: blur(10px); width: 220px; padding: 20px; border-radius: 12px; display: none; z-index: 200; }
+  .menu.active { display: flex; }
+  .language-switcher { display: none; }
 
-  .menu {
-    flex-direction: column;
-    gap: 15px;
-    position: absolute;
-    top: 70px;
-    right: 0;
-    background: #fff;
-    width: 200px;
-    padding: 20px;
-    border: 1px solid #eee;
-    border-radius: 8px;
-    display: none;
-    z-index: 200;
+  .hero { background: url('../images/salon-hero768.jpg') center/cover no-repeat; padding: 120px 20px; }
+  .hero h1 { font-size: 32px; }
+  .hero p { font-size: 16px; margin-bottom: 30px; }
+
+  .btn { width: 80%; max-width: 200px; padding: 12px 24px; font-size: 14px; margin-top: 20px; border-radius: 20px; }
+   .contact-right .btn {margin: 20px auto;}
+  .contacts-grid { flex-direction: column; gap: 30px; }
+  .contacts-right iframe { height: 200px; }
+
+  .review-item { flex: 0 0 85%; }
+
+  .salon-description { padding: 30px 20px; margin: 40px 15px; }
+  .salon-principles { background: url('../images/salon-principles768.jpg') center/cover no-repeat; padding: 80px 15px; }
+  .principles-content p:first-of-type { font-size: 32px; margin-bottom: 40px; }
+  .principles-content ul li { font-size: 16px; width: 140px; gap: 20px; }
+
+  .menu a {
+    background: linear-gradient(90deg, #f39ca0, #aaddff, #fff09a);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;  
+    background-size: 200% 200%;
+    animation: textGradient 6s ease infinite;
+    text-align: center;
   }
 
-  .menu.active { display: flex; }
-
-  .language-switcher { display: none; }
-}    
+  .features-title { font-size: 42px; margin-bottom: 40px; }
+  .reviews .section-title { font-size: 42px; margin-bottom: 40px; }
+  .contacts .section-title { font-size: 42px; margin-bottom: 40px; }
+}

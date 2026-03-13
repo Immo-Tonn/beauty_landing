@@ -1,6 +1,8 @@
 import "../scss/main.scss";
 
+// =========================
 // Кнопка "Оставить заявку"
+// =========================
 const ctaButton = document.querySelector("#cta-button");
 const contactSection = document.querySelector("#contact");
 
@@ -13,7 +15,9 @@ if (ctaButton && contactSection) {
   });
 }
 
-// Форма
+// =========================
+// Форма обратной связи
+// =========================
 const contactForm = document.querySelector("#contact-form");
 const statusMessage = document.querySelector("#form-status");
 
@@ -69,7 +73,6 @@ if (contactForm) {
       });
 
       let data = { error: "Server error" };
-
       try {
         data = await response.json();
       } catch {}
@@ -95,28 +98,29 @@ if (contactForm) {
       console.error(err);
     }
   });
-
-  // ===== Мобильное выпадающее меню =====
-  const navToggle = document.querySelector(".nav-toggle");
-  const menu = document.querySelector(".menu");
-
-  if (navToggle && menu) {
-    navToggle.addEventListener("click", () => {
-      menu.classList.toggle("active");
-    });
-
-    menu.querySelectorAll("a").forEach((link) => {
-      link.addEventListener("click", () => {
-        menu.classList.remove("active");
-      });
-    });
-  }
 }
 
-/* =====================================================
-   КАРУСЕЛЬ ОТЗЫВОВ
-===================================================== */
+// =========================
+// Мобильное выпадающее меню
+// =========================
+const navToggle = document.querySelector(".nav-toggle");
+const menu = document.querySelector(".menu");
 
+if (navToggle && menu) {
+  navToggle.addEventListener("click", () => {
+    menu.classList.toggle("active");
+  });
+
+  menu.querySelectorAll("a").forEach((link) => {
+    link.addEventListener("click", () => {
+      menu.classList.remove("active");
+    });
+  });
+}
+
+// =========================
+// Карусель отзывов
+// =========================
 const reviewsTrack = document.querySelector(".reviews-track");
 const reviewCards = document.querySelectorAll(".review-item");
 
@@ -132,6 +136,93 @@ reviewCards.forEach((card) => {
       reviewsTrack.style.animationPlayState = "running";
       reviewCards.forEach((c) => c.classList.remove("active"));
       carouselPaused = false;
+    }
+  });
+});
+
+// =========================
+// Модальные окна
+// =========================
+let scrollPosition = 0;
+
+const datenschutzModal = document.getElementById("datenschutz-modal");
+const impressumModal = document.getElementById("impressum-modal");
+
+const datenschutzLink = document.getElementById("datenschutz-link");
+const impressumLink = document.getElementById("impressum-link");
+
+const closeButtons = document.querySelectorAll(".modal .close");
+
+// Функции открытия/закрытия с сохранением позиции
+const openModal = (modal) => {
+  scrollPosition = window.scrollY;
+  modal.style.display = "block";
+  document.body.style.position = "fixed";
+  document.body.style.top = `-${scrollPosition}px`;
+  document.body.style.left = "0";
+  document.body.style.right = "0";
+  document.body.style.width = "100%";
+};
+
+const closeModal = (modal) => {
+  modal.style.display = "none";
+  document.body.style.position = "";
+  document.body.style.top = "";
+  document.body.style.left = "";
+  document.body.style.right = "";
+  document.body.style.width = "";
+  window.scrollTo(0, scrollPosition);
+};
+
+// Открытие модалок
+datenschutzLink.onclick = (e) => {
+  e.preventDefault();
+  openModal(datenschutzModal);
+};
+
+impressumLink.onclick = (e) => {
+  e.preventDefault();
+  openModal(impressumModal);
+};
+
+// Закрытие по крестику
+closeButtons.forEach((btn) => {
+  btn.onclick = () => closeModal(btn.parentElement.parentElement);
+});
+
+// Закрытие по клику вне окна
+window.onclick = (event) => {
+  if (event.target.classList.contains("modal")) {
+    closeModal(event.target);
+  }
+};
+
+// =========================
+// Смена языка с сохранением позиции (через якоря)
+// =========================
+const languageLinks = document.querySelectorAll(".language-switcher a");
+const sections = document.querySelectorAll("section[id]");
+
+languageLinks.forEach((link) => {
+  link.addEventListener("click", (e) => {
+    e.preventDefault();
+
+    let currentSection = "";
+
+    sections.forEach((section) => {
+      const rect = section.getBoundingClientRect();
+
+      if (rect.top <= 120 && rect.bottom >= 120) {
+        currentSection = section.id;
+      }
+    });
+
+    const baseUrl = link.getAttribute("href").split("#")[0];
+
+    if (currentSection) {
+      window.location.href = `${baseUrl}#${currentSection}`;
+    } else {
+      window.location.href = baseUrl;
     }
   });
 });
