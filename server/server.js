@@ -31,24 +31,37 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-// Обработка формы
+// ========================
+// Маршрут для формы — ДОЛЖЕН идти перед app.get("*")
+// ========================
 app.post("/api/contact", async (req, res) => {
-  const { name, email, phone, message, company } = req.body;
+  const { name, email, phone, message, company, lang } = req.body;
 
   // Honeypot: если поле заполнено, это бот
   if (company) return res.status(400).json({ error: "Spam detected" });
 
+  // Сообщения на разных языках
+  const messages = {
+    de: "Bitte geben Sie Name, E-Mail und Telefon ein",
+    ru: "Введите имя, email и телефон",
+    en: "Please enter name, email, and phone",
+  };
+
+  // По умолчанию немецкий
+  const language = messages[lang] ? lang : "de";
+
+  // Проверка обязательных полей
   if (!name || !email || !phone)
-    return res.status(400).json({ error: "Введите имя, email и телефон" });
+    return res.status(400).json({ error: messages[language] });
 
   try {
     await transporter.sendMail({
-      from: `"Landing Form" <${process.env.EMAIL_USER}>`,
+      from: `"BeautyTime Kontaktformular" <${process.env.EMAIL_USER}>`,
       to: process.env.EMAIL_USER,
-      subject: "Новая заявка с сайта",
-      text: `Имя: ${name}\nEmail: ${email}\nТелефон: ${phone}\nСообщение: ${message}`,
+      replyTo: email,
+      subject: `Neue BeautyTime Anfrage von ${name}`,
+      text: `Name: ${name}\nE-Mail: ${email}\nTelefon: ${phone}\nNachricht: ${message}`,
     });
-
     res.status(200).json({ success: true });
   } catch (error) {
     console.error("Mail error:", error);
@@ -56,12 +69,21 @@ app.post("/api/contact", async (req, res) => {
   }
 });
 
-// Отдаём фронтенд статику (Vite build)
+// ========================
+// Статика фронтенда
+// ========================
 app.use(express.static(path.join(__dirname, "../dist")));
+
+// ========================
+// Все GET-запросы → index.html (SPA)
+// ========================
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "../dist/index.html"));
 });
 
+// ========================
+// Запуск сервера
+// ========================
 app.listen(process.env.PORT || 3000, () => {
   console.log("Server running on port", process.env.PORT || 3000);
 });
